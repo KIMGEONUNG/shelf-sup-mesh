@@ -71,7 +71,7 @@ def view_vox2mesh_py3d(view):
     :param view: (N, 7)
     :return: (N, ), (N, 3, 3), (N, 3)
     """
-    view = view.clone()
+    view = view.clone().detach()
     view, f = torch.split(view, [6, 1], dim=1)
     view[:, 0] = -view[:, 0]
     f = (f * 2).squeeze(1)
@@ -162,7 +162,7 @@ def render_normals(meshes: Meshes, out_size, view_param, **kwargs):
 
     image = renderer(meshes, cameras=cameras,  **kwargs)
 
-    image = torch.flip(image, dims=[-3])
+    image = torch.flip(image, dims=[-3]).detach()
     image = image.transpose(-1, -2).transpose(-2, -3)  # H, 4, W --> 4, H, W
     rgb, mask = torch.split(image, [image.size(1) - 1, 1], dim=1)  # [0-1]
 
