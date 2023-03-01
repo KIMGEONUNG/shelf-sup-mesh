@@ -1,4 +1,5 @@
 # examples/
+weights
 outputs/
 *.npy
 .idea
